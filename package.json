@@ -1,0 +1,15 @@
+{
+  "name": "hapi-jwt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rodolfo do Nascimento Azevedo",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^15.0.3",
+    "hapi-auth-jwt2": "^7.1.3"
+  }
+}
