@@ -4,6 +4,8 @@ const Hapi = require('hapi');
 const Config = require('./config');
 const Routes = require('./routes');
 const Moment = require('moment');
+const Vision = require('vision');
+const Inert = require('inert');
 const server = new Hapi.Server();
 
 server.connection({
@@ -16,8 +18,6 @@ server.connection({
 
 // Validate function to be injected
 var validate = function(decoded, request, callback) {
-  console.log(decoded);
-  console.log('ENTROU AQUI VELHO');
   var ttl = 1 * 30 * 1000 * 60;
   // Check token timestamp
   var diff = Moment().diff(Moment(decoded.iat * 1000));
@@ -28,6 +28,8 @@ var validate = function(decoded, request, callback) {
 };
 
 server.register([
+  Vision,
+  Inert,
   require('hapi-auth-jwt2')
 ], (err) => {
 
@@ -38,7 +40,7 @@ server.register([
   server.state('token_auth_backend', {
     ttl: 1 * 30 * 1000 * 60,
     isSecure: false,
-    isHttpOnly: true,
+    isHttpOnly: false,
     clearInvalid: false, // remove invalid cookies
     strictHeader: true // don't allow violations of RFC 6265
   });
@@ -49,6 +51,14 @@ server.register([
     verifyOptions: {
       algorithms: ['HS256']
     } // pick a strong algorithm
+  });
+
+  server.views({
+    engines: {
+      html: require('handlebars')
+    },
+    path: './',
+    layout: 'index'
   });
 
   server.route(Routes.endpoints);
