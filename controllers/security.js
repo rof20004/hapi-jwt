@@ -8,13 +8,12 @@ exports.login = {
   auth: false,
   handler: function(request, reply) {
     let obj = {
-      id: 2,
-      name: 'Rodolfo do Nascimento Azevedo',
+      login: request.payload.email,
+      senha: request.payload.senha,
       scope: ['Admin', 'User']
     }
-
     let token = jwt.sign(obj, Config.server.key);
-    reply({token: token});
+    return reply({token: token});
   }
 };
 
