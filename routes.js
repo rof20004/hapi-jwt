@@ -1,8 +1,8 @@
 'use strict';
 
-const Pages = require('./pages');
+const Security = require('./controllers/security');
 
 exports.endpoints = [
-	{method: 'GET',    	path: '/',											    config: Pages.index},
-	{method: 'POST',    path: '/restricted',								config: Pages.restricted}
+	{method: 'POST',    path: '/login',										config: Security.login},
+	{method: 'POST',    path: '/logout',								  config: Security.logout}
 ];
