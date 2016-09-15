@@ -13,7 +13,12 @@ exports.login = {
       scope: ['Admin', 'User']
     }
     let token = jwt.sign(obj, Config.server.key);
-    return reply({token: token});
+    try {
+      jwt.verify(token, Config.server.key);
+    } catch (e) {
+      return reply(Boom.unauthorized(e.message));
+    }
+    reply({token: token});
   }
 };
 
